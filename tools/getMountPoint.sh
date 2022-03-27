@@ -10,7 +10,7 @@ then
 fi
 
 #obtem a particao no sistema live.
-a= lsblk | grep /mnt | cut -f1 -d" "
+a=$(lsblk | grep /mnt | cut -c 3-7)
 
 #DEBUG, desmarque para conferir
 #a="sdd"
@@ -27,4 +27,3 @@ echo $b > .mountpoint
 #echo "arquivo mountpart"
 #cat .mountpart
 #echo "arquivo mountpoint"
-#cat .mountpoint
