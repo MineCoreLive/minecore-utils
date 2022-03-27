@@ -46,7 +46,8 @@ else
 fi
 
 
-#definimos o diretório do configurador do syslinux
+#definimos o diretório do configurador do syslinux e do isolinux
+isolinuxConfig="boot/isolinux/isolinux.cfg"
 syslinuxConfig="boot/syslinux/syslinux.cfg"
 
 #debug, desmarque para ler
@@ -59,12 +60,18 @@ syslinuxConfig="boot/syslinux/syslinux.cfg"
 #se a montagem for diferente de sdb
 if [[ $particao != "sdb" ]]
 then
-    sed -i 's/tce=sdb/tce='$particao'/g' "$montagem/$syslinuxConfig"
+    t1=$(sed -i 's/tce=sdb/tce='$particao'/g' "$montagem/$syslinuxConfig")
+    t2=$(sed -i 's/tce=sdb/tce='$particao'/g' "$montagem/$isolinuxConfig")
     echo "::: Configuracoes alteradas em $montagem/$syslinuxConfig"
     echo "Primeira configuracao realizada com sucesso"
     echo "Debug..."
+    if [ $t1 ]
+    then
     cat "$montagem/$syslinuxConfig"
-    sleep 60
+    else
+    cat "$montagem/$isolinuxConfig"
+    fi
+    sleep 30
     echo ":: Reiniciando em 5"
     sleep 1
     echo ":: Reiniciando em 4"
